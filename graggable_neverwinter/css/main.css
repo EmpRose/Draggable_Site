@@ -1,0 +1,88 @@
+* {                                             /*Zurücksetzen aller standard Designs*/
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+:root {
+    --gap:.5em;                                  /*Entfernung zwischen den Feldern/Bildern*/
+    --index:calc(1vw + 1vh);                    /*1vw = 1% von der Gummibreite, 1vh = 1% von der Gummihöhe*/ /*Gummi -> abhängig von der Bildschirmauflösung -> Echte Werte*/
+    --color-dark:#000
+}
+
+body {
+    overflow: hidden;                           /*Wichtig, das Viewpool soll begrenzt sein aber die Elemente sich frei bewegen*/ /*Scrollbalken werden nicht benötigt*/
+    height: 100vh;                              /*Body nimmt 100% der vertikalen Höhe der Auflösung ein.*/
+    display: flex;                              /*Flexible Verarbeitung der Display-Inhalte*/
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    text-transform: uppercase;                  /*Gesamter Text in Großbuchstaben*/
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    letter-spacing: .1em;                       /*Abstand zwischen den Zeichen/Buchstaben*/
+    font-size: calc(var(--index) * 2.8);        /*Die Schriftgröße je Zeichen ist abhängig von der Auflösung in %-Angabe immer identisch*/ /*--index -> variable die den Wert übergibt*/
+    position: absolute;                         /*Wir nutzen einen "pre-loader"*/
+    font-weight: 200;
+    text-align: center;                         /*Header wird ein Container für die "Loading.." Meldung -> Also zentrieren wir es direkt*/
+    opacity: .9;
+    margin-top: .2em;
+}
+
+.header span {
+    display:block;                              /*NACHVORSCHEN display "block"*/
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: calc(var(--index) * .75);
+    margin-top: 5px;
+}
+
+.gallery {
+    width:30vw;
+    column-width: 2em;
+    gap: var(--gap);
+    transform:scale(8.2);
+    will-change: transform;                     /*Es empfiehlt sich, die Angabe am Objekt zu setzen, dass sich verändern wird. So erfolgt die Veränderung nicht mehr abgehackt*/    
+                                                /*Schärfe der Bilder in Bewegung, deutlich besser*/
+    transition: transform 1s cubic-bezier(0.75, 1, .25, 1), opacity 1s;     /*NACHVORSCHEN: Übernommen..belesen!*/
+}
+
+.gallery_item {
+    margin-bottom: var(--gap);
+    transform:scale(1.001);                     /*Bilder werden nach dem Standard vom Browser "gepresst". Damit umgehen wir es*/
+    will-change: transform;  
+    transition: 0.3s
+}
+
+.gallery_item:hover{
+    transform: scale(1.03);
+}
+
+.gallery_item img {
+    width: 100%;
+    display:block;                              /*Für gleiche Abstände, ein must have. immer!*/
+
+}
+
+
+.loaded .gallery {
+    opacity:1;
+}
+
+.loaded .header span {
+    opacity:0;
+}
+
+
+/*HELL/DUNKEL vom System abhängig*/
+/*Dark-Mode*/
+
+@media (prefers-color-scheme: dark){
+    body {
+        background-color: var(--color-dark);
+    }
+    .header {
+        filter:invert(100%)                 /*Setzt die Farben immer auf das 100%ige Gegenteil*/
+    }
+}
+
